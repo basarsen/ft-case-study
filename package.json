@@ -1,0 +1,27 @@
+{
+  "name": "ft-case-study",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "datasource": "node datasource/index.js",
+    "socket-server": "node socket-server/index.js",
+    "socket-client": "node socket-client/index.js",
+    "api": "node api/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "amqplib": "^0.10.9",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "ioredis": "^5.9.2",
+    "prisma": "^5.22.0",
+    "sqlite3": "^5.1.7",
+    "uuid": "^13.0.0",
+    "ws": "^8.19.0"
+  }
+}

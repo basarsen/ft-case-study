@@ -1,0 +1,21 @@
+module.exports = [
+  "AKBNK",
+  "ASELS",
+  "BIMAS",
+  "EKGYO",
+  "EREGL",
+  "FROTO",
+  "GARAN",
+  "ISCTR",
+  "KCHOL",
+  "KOZAL",
+  "PETKM",
+  "PGSUS",
+  "SAHOL",
+  "SISE",
+  "TCELL",
+  "THYAO",
+  "TOASO",
+  "TUPRS",
+  "YKBNK"
+]

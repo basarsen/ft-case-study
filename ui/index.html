@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BIST30 Canlı Fiyatlar</title>
+  <meta name="viewport"
+    content="width=device-width, user-scalable=0, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap");
+    @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+    body {
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #111;
+      color: #fff;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      display: table;
+    }
+    th, td {
+      padding: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
+      text-align: left;
+      width: 50%;
+    }
+
+    tr {
+      transition: .3s ease-in;
+    }
+
+    th {
+        font-weight: bold;
+    }
+
+    h1 {
+        font-weight: bold;
+        font-size: 32px;
+        margin: 32px 16px;
+    }
+
+    .container {
+        width: 768px;
+        box-shadow: 0 0 36px #333;
+        border-radius: 16px;
+        margin: 32px;
+        border: 1px solid rgb(35, 140, 35);
+    }
+
+    .up {
+      background-color: green;
+    }
+    .down {
+      background-color: red;
+    }
+
+
+@media screen and (max-width: 600px) { 
+.container {
+        width: 100%;
+        box-shadow: none;
+        border-radius: 0;
+        margin:0;
+    }
+
+}
+  </style>
+</head>
+<body>
+<div class="container">
+<h1>BIST30 Canlı Fiyatlar</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sembol</th>
+      <th>Fiyat</th>
+    </tr>
+  </thead>
+  <tbody id="prices"></tbody>
+</table>
+</div>
+<script>
+  const ws = new WebSocket("ws://localhost:8080");
+  const prices = {};
+
+  ws.onmessage = (event) => {
+    const message = JSON.parse(event.data);
+    if (message.type !== "PRICE_UPDATE") return;
+
+    const tbody = document.getElementById("prices");
+
+    Object.entries(message.data).forEach(([symbol, data]) => {
+      const prev = prices[symbol];
+      prices[symbol] = data.price;
+
+      let row = document.getElementById(symbol);
+      if (!row) {
+        row = document.createElement("tr");
+        row.id = symbol;
+        row.innerHTML = `
+          <td>${symbol}</td>
+          <td></td>
+        `;
+        tbody.appendChild(row);
+      }
+
+      const priceCell = row.children[1];
+      priceCell.textContent = '₺' + data.price.toFixed(2);
+
+      if (prev !== undefined) {
+        priceCell.parentElement.className =
+          data.price > prev ? "up" :
+          data.price < prev ? "down" : "";
+      }
+    });
+  };
+</script>
+
+</body>
+</html>
