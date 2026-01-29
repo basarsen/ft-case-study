@@ -18,7 +18,7 @@ router.get("/latest", async (req, res) => {
   res.json(result)
 })
 
-.get("/prices/history", async (req, res) => {
+.get("/history", async (req, res) => {
   const { symbol, limit = 100 } = req.query
 
   if (!symbol) {
@@ -31,7 +31,12 @@ router.get("/latest", async (req, res) => {
     take: Number(limit)
   })
 
-  res.json(result)
+  res.json(
+    result.map(row => ({
+      ...row,
+      timestamp: Number(row.timestamp)
+    }))
+  );
 })
 
 
